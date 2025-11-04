@@ -61,6 +61,7 @@ export const mockAuctions: Auction[] = [
     buyNowPrice: 25000,
     endDate: new Date(Date.now() + 2 * 24 * 60 * 60 * 1000).toISOString(), // za 2 dny
     status: 'active',
+    condition: 'new',
     sellerId: '1',
     categoryId: 'star-wars',
     totalBids: 12,
@@ -79,6 +80,7 @@ export const mockAuctions: Auction[] = [
     buyNowPrice: 9500,
     endDate: new Date(Date.now() + 5 * 60 * 60 * 1000).toISOString(), // za 5 hodin
     status: 'active',
+    condition: 'used-no-box',
     sellerId: '3',
     categoryId: 'technic',
     totalBids: 8,
@@ -95,6 +97,7 @@ export const mockAuctions: Auction[] = [
     currentPrice: 1200,
     endDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(), // za týden
     status: 'active',
+    condition: 'new',
     sellerId: '2',
     categoryId: 'architecture',
     totalBids: 0,
@@ -112,6 +115,7 @@ export const mockAuctions: Auction[] = [
     buyNowPrice: 1500,
     endDate: new Date(Date.now() + 1 * 24 * 60 * 60 * 1000).toISOString(), // zítra
     status: 'active',
+    condition: 'used-with-box',
     sellerId: '1',
     categoryId: 'city',
     totalBids: 5,
@@ -128,6 +132,7 @@ export const mockAuctions: Auction[] = [
     currentPrice: 4200,
     endDate: new Date(Date.now() + 10 * 24 * 60 * 60 * 1000).toISOString(), // za 10 dní
     status: 'active',
+    condition: 'used-with-box',
     sellerId: '2',
     categoryId: 'creator',
     totalBids: 6,
@@ -145,6 +150,7 @@ export const mockAuctions: Auction[] = [
     buyNowPrice: 18000,
     endDate: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toISOString(), // za 3 dny
     status: 'active',
+    condition: 'new',
     sellerId: '3',
     categoryId: 'harry-potter',
     totalBids: 9,

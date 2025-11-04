@@ -11,6 +11,9 @@ export interface User {
   memberSince: string; // Datum registrace
 }
 
+// Stav produktu
+export type ProductCondition = 'new' | 'used-no-box' | 'used-with-box';
+
 // Aukce
 export interface Auction {
   id: string;
@@ -22,6 +25,7 @@ export interface Auction {
   buyNowPrice?: number; // Volitelná "Kup teď" cena
   endDate: string; // ISO datum konce aukce
   status: 'active' | 'ended' | 'sold'; // Stav aukce
+  condition: ProductCondition; // Stav produktu (nový, použitý...)
   sellerId: string; // ID prodejce
   categoryId: string; // ID kategorie (např. "star-wars", "technic")
   totalBids: number; // Počet příhozů
