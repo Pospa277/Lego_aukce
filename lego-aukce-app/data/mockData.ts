@@ -46,6 +46,24 @@ export const mockCategories: Category[] = [
   { id: 'harry-potter', name: 'Harry Potter', slug: 'harry-potter', icon: '⚡' },
 ];
 
+// Lokace (kraje ČR)
+export const locations = [
+  { id: 'praha', name: 'Praha' },
+  { id: 'stredocesky', name: 'Středočeský kraj' },
+  { id: 'jihocesky', name: 'Jihočeský kraj' },
+  { id: 'plzensky', name: 'Plzeňský kraj' },
+  { id: 'karlovarsky', name: 'Karlovarský kraj' },
+  { id: 'ustecky', name: 'Ústecký kraj' },
+  { id: 'liberecky', name: 'Liberecký kraj' },
+  { id: 'kralovehradecky', name: 'Královéhradecký kraj' },
+  { id: 'pardubicky', name: 'Pardubický kraj' },
+  { id: 'vysocina', name: 'Kraj Vysočina' },
+  { id: 'jihomoravsky', name: 'Jihomoravský kraj' },
+  { id: 'olomoucky', name: 'Olomoucký kraj' },
+  { id: 'moravskoslezsky', name: 'Moravskoslezský kraj' },
+  { id: 'zlinsky', name: 'Zlínský kraj' },
+];
+
 // Falešné aukce
 export const mockAuctions: Auction[] = [
   {
@@ -62,6 +80,7 @@ export const mockAuctions: Auction[] = [
     endDate: new Date(Date.now() + 2 * 24 * 60 * 60 * 1000).toISOString(), // za 2 dny
     status: 'active',
     condition: 'new',
+    location: 'praha',
     sellerId: '1',
     categoryId: 'star-wars',
     totalBids: 12,
@@ -81,6 +100,7 @@ export const mockAuctions: Auction[] = [
     endDate: new Date(Date.now() + 5 * 60 * 60 * 1000).toISOString(), // za 5 hodin
     status: 'active',
     condition: 'used-no-box',
+    location: 'jihomoravsky',
     sellerId: '3',
     categoryId: 'technic',
     totalBids: 8,
@@ -98,6 +118,7 @@ export const mockAuctions: Auction[] = [
     endDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(), // za týden
     status: 'active',
     condition: 'new',
+    location: 'stredocesky',
     sellerId: '2',
     categoryId: 'architecture',
     totalBids: 0,
@@ -116,6 +137,7 @@ export const mockAuctions: Auction[] = [
     endDate: new Date(Date.now() + 1 * 24 * 60 * 60 * 1000).toISOString(), // zítra
     status: 'active',
     condition: 'used-with-box',
+    location: 'plzensky',
     sellerId: '1',
     categoryId: 'city',
     totalBids: 5,
@@ -133,6 +155,7 @@ export const mockAuctions: Auction[] = [
     endDate: new Date(Date.now() + 10 * 24 * 60 * 60 * 1000).toISOString(), // za 10 dní
     status: 'active',
     condition: 'used-with-box',
+    location: 'kralovehradecky',
     sellerId: '2',
     categoryId: 'creator',
     totalBids: 6,
@@ -151,6 +174,7 @@ export const mockAuctions: Auction[] = [
     endDate: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toISOString(), // za 3 dny
     status: 'active',
     condition: 'new',
+    location: 'olomoucky',
     sellerId: '3',
     categoryId: 'harry-potter',
     totalBids: 9,

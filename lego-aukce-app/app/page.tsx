@@ -2,17 +2,29 @@
 
 import { useState } from 'react';
 import AuctionCard from '@/components/AuctionCard';
-import { mockAuctions, mockCategories } from '@/data/mockData';
-import { ProductCondition } from '@/types';
+import { mockAuctions, mockCategories, locations } from '@/data/mockData';
+import { ProductCondition, Location } from '@/types';
 import Link from 'next/link';
 
 export default function HomePage() {
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [selectedCondition, setSelectedCondition] = useState<ProductCondition | 'all'>('all');
+  const [selectedLocation, setSelectedLocation] = useState<Location | 'all'>('all');
   const [sortBy, setSortBy] = useState<'ending-soon' | 'newest' | 'price-low' | 'price-high'>('ending-soon');
+  const [searchQuery, setSearchQuery] = useState<string>('');
+  const [buyNowOnly, setBuyNowOnly] = useState<boolean>(false);
 
   // Filtrujeme pouze aktivní aukce
   let filteredAuctions = mockAuctions.filter(a => a.status === 'active');
+
+  // Textové vyhledávání (v názvu a popisu)
+  if (searchQuery.trim()) {
+    const query = searchQuery.toLowerCase();
+    filteredAuctions = filteredAuctions.filter(a =>
+      a.title.toLowerCase().includes(query) ||
+      a.description.toLowerCase().includes(query)
+    );
+  }
 
   // Filtr podle kategorie
   if (selectedCategory !== 'all') {
@@ -22,6 +34,16 @@ export default function HomePage() {
   // Filtr podle stavu
   if (selectedCondition !== 'all') {
     filteredAuctions = filteredAuctions.filter(a => a.condition === selectedCondition);
+  }
+
+  // Filtr podle lokace
+  if (selectedLocation !== 'all') {
+    filteredAuctions = filteredAuctions.filter(a => a.location === selectedLocation);
+  }
+
+  // Filtr "Jen s Kup teď"
+  if (buyNowOnly) {
+    filteredAuctions = filteredAuctions.filter(a => a.buyNowPrice !== undefined);
   }
 
   // Řazení
@@ -152,9 +174,33 @@ export default function HomePage() {
           </h2>
         </div>
 
+        {/* Search Bar */}
+        <div className="mb-4">
+          <div className="relative">
+            <input
+              type="text"
+              placeholder="🔍 Hledat v názvech a popisech..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full px-4 py-3 pl-12 border-2 border-gray-300 rounded-lg focus:border-lego-red focus:outline-none text-lg"
+            />
+            <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-xl">
+              🔍
+            </span>
+            {searchQuery && (
+              <button
+                onClick={() => setSearchQuery('')}
+                className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+              >
+                ✕
+              </button>
+            )}
+          </div>
+        </div>
+
         {/* Filtry */}
         <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 mb-6">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             {/* Filtr podle stavu */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -191,6 +237,25 @@ export default function HomePage() {
               </select>
             </div>
 
+            {/* Filtr podle lokace */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Lokace
+              </label>
+              <select
+                value={selectedLocation}
+                onChange={(e) => setSelectedLocation(e.target.value as Location | 'all')}
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:border-lego-red focus:outline-none"
+              >
+                <option value="all">Všechny lokace</option>
+                {locations.map((loc) => (
+                  <option key={loc.id} value={loc.id}>
+                    {loc.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+
             {/* Řazení */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -209,13 +274,30 @@ export default function HomePage() {
             </div>
           </div>
 
+          {/* Checkbox "Jen s Kup teď" */}
+          <div className="mt-4 flex items-center">
+            <input
+              type="checkbox"
+              id="buyNowOnly"
+              checked={buyNowOnly}
+              onChange={(e) => setBuyNowOnly(e.target.checked)}
+              className="w-4 h-4 text-lego-red border-gray-300 rounded focus:ring-lego-red"
+            />
+            <label htmlFor="buyNowOnly" className="ml-2 text-sm font-medium text-gray-700 cursor-pointer">
+              🌟 Jen s možností "Kup teď"
+            </label>
+          </div>
+
           {/* Reset filtrů */}
-          {(selectedCategory !== 'all' || selectedCondition !== 'all' || sortBy !== 'ending-soon') && (
+          {(selectedCategory !== 'all' || selectedCondition !== 'all' || selectedLocation !== 'all' || sortBy !== 'ending-soon' || searchQuery || buyNowOnly) && (
             <button
               onClick={() => {
                 setSelectedCategory('all');
                 setSelectedCondition('all');
+                setSelectedLocation('all');
                 setSortBy('ending-soon');
+                setSearchQuery('');
+                setBuyNowOnly(false);
               }}
               className="mt-4 text-sm text-lego-red hover:text-red-700 font-medium"
             >
@@ -244,6 +326,10 @@ export default function HomePage() {
               onClick={() => {
                 setSelectedCategory('all');
                 setSelectedCondition('all');
+                setSelectedLocation('all');
+                setSortBy('ending-soon');
+                setSearchQuery('');
+                setBuyNowOnly(false);
               }}
               className="px-6 py-2 bg-lego-red text-white rounded-lg hover:bg-red-700"
             >

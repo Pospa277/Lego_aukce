@@ -14,6 +14,23 @@ export interface User {
 // Stav produktu
 export type ProductCondition = 'new' | 'used-no-box' | 'used-with-box';
 
+// Lokace (kraje ČR)
+export type Location =
+  | 'praha'
+  | 'stredocesky'
+  | 'jihocesky'
+  | 'plzensky'
+  | 'karlovarsky'
+  | 'ustecky'
+  | 'liberecky'
+  | 'kralovehradecky'
+  | 'pardubicky'
+  | 'vysocina'
+  | 'jihomoravsky'
+  | 'olomoucky'
+  | 'moravskoslezsky'
+  | 'zlinsky';
+
 // Aukce
 export interface Auction {
   id: string;
@@ -26,6 +43,7 @@ export interface Auction {
   endDate: string; // ISO datum konce aukce
   status: 'active' | 'ended' | 'sold'; // Stav aukce
   condition: ProductCondition; // Stav produktu (nový, použitý...)
+  location: Location; // Lokace prodejce
   sellerId: string; // ID prodejce
   categoryId: string; // ID kategorie (např. "star-wars", "technic")
   totalBids: number; // Počet příhozů
