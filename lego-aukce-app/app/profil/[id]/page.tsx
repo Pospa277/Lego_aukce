@@ -12,8 +12,12 @@ export function generateStaticParams() {
   ];
 }
 
-export default function ProfilePage({ params }: { params: { id: string } }) {
-  const user = getUserById(params.id);
+// Povolit pouze předgenerované stránky
+export const dynamicParams = false;
+
+export default async function ProfilePage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+  const user = getUserById(id);
 
   if (!user) {
     notFound();

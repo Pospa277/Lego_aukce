@@ -17,8 +17,12 @@ export function generateStaticParams() {
   ];
 }
 
-export default function AuctionDetailPage({ params }: { params: { id: string } }) {
-  const auction = getAuctionById(params.id);
+// Povolit pouze předgenerované stránky
+export const dynamicParams = false;
+
+export default async function AuctionDetailPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+  const auction = getAuctionById(id);
 
   if (!auction) {
     notFound();
