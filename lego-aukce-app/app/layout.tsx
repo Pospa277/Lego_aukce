@@ -1,11 +1,7 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-
-// Použijeme Inter font od Googlu
-const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "LEGO Aukce - Marketplace pro LEGO sběratele",
@@ -19,7 +15,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="cs">
-      <body className={inter.className}>
+      <body className="font-sans antialiased">
         <div className="flex flex-col min-h-screen">
           <Header />
           <main className="flex-1">
