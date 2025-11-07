@@ -70,6 +70,12 @@ export default function Header() {
           Kategorie
         </Link>
         <Link
+          href="/jak-to-funguje"
+          className="block text-gray-700 hover:text-lego-red transition-colors font-medium"
+        >
+          Jak to funguje
+        </Link>
+        <Link
           href="/aukce/nova"
           className="block w-full text-center px-4 py-2 bg-lego-red text-white rounded-lg font-medium hover:bg-red-700 transition-colors"
         >
