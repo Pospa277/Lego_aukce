@@ -1,31 +1,29 @@
+'use client';
+
+import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { notFound } from 'next/navigation';
+import { useParams } from 'next/navigation';
 import BidPanel from '@/components/BidPanel';
-import { getAuctionById, getUserById, getCategoryById, mockBids, mockUsers } from '@/data/mockData';
+import AuctionCard from '@/components/AuctionCard';
+import { getAuctionById, getUserById, getCategoryById, mockBids, mockUsers, getAuctionsByUserId } from '@/data/mockData';
 import { BidWithUser } from '@/types';
 
-// Pro statické generování stránek
-export function generateStaticParams() {
-  return [
-    { id: '1' },
-    { id: '2' },
-    { id: '3' },
-    { id: '4' },
-    { id: '5' },
-    { id: '6' },
-  ];
-}
-
-// Povolit pouze předgenerované stránky
-export const dynamicParams = false;
-
-export default async function AuctionDetailPage({ params }: { params: Promise<{ id: string }> }) {
-  const { id } = await params;
+export default function AuctionDetailPage() {
+  const params = useParams();
+  const id = params.id as string;
   const auction = getAuctionById(id);
 
+  const [activeImageIndex, setActiveImageIndex] = useState(0);
+
   if (!auction) {
-    notFound();
+    return (
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="text-center">
+          <h1 className="text-2xl font-bold">Aukce nenalezena</h1>
+        </div>
+      </div>
+    );
   }
 
   const seller = getUserById(auction.sellerId);
@@ -42,6 +40,11 @@ export default async function AuctionDetailPage({ params }: { params: Promise<{ 
     user: getUserById(bid.userId) || mockUsers[0],
   }));
 
+  // Získat další aukce od tohoto prodejce (kromě aktuální)
+  const sellerOtherAuctions = getAuctionsByUserId(auction.sellerId)
+    .filter(a => a.id !== auction.id && a.status === 'active')
+    .slice(0, 3); // Max 3 další aukce
+
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       {/* Breadcrumbs */}
@@ -56,29 +59,46 @@ export default async function AuctionDetailPage({ params }: { params: Promise<{ 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Levá část - Obrázky a popis */}
         <div className="lg:col-span-2 space-y-6">
-          {/* Hlavní obrázek */}
+          {/* Fotogalerie */}
           <div className="bg-white rounded-xl shadow-md overflow-hidden">
+            {/* Hlavní obrázek */}
             <div className="relative h-96 bg-gray-100">
               <Image
-                src={auction.images[0]}
-                alt={auction.title}
+                src={auction.images[activeImageIndex]}
+                alt={`${auction.title} - obrázek ${activeImageIndex + 1}`}
                 fill
                 className="object-cover"
                 priority
               />
+              {/* Počet fotek badge */}
+              <div className="absolute top-4 right-4 bg-black/60 text-white px-3 py-1 rounded-full text-sm font-medium">
+                📸 {activeImageIndex + 1} / {auction.images.length}
+              </div>
             </div>
-            {/* Thumbnaily dalších obrázků */}
+
+            {/* Thumbnaily */}
             {auction.images.length > 1 && (
-              <div className="grid grid-cols-4 gap-2 p-4">
-                {auction.images.slice(1).map((img, idx) => (
-                  <div key={idx} className="relative h-24 bg-gray-100 rounded-lg overflow-hidden cursor-pointer hover:opacity-75">
+              <div className="grid grid-cols-4 gap-2 p-4 bg-gray-50">
+                {auction.images.map((img, idx) => (
+                  <button
+                    key={idx}
+                    onClick={() => setActiveImageIndex(idx)}
+                    className={`relative h-24 bg-gray-100 rounded-lg overflow-hidden cursor-pointer transition-all ${
+                      activeImageIndex === idx
+                        ? 'ring-4 ring-lego-red'
+                        : 'hover:ring-2 hover:ring-gray-300'
+                    }`}
+                  >
                     <Image
                       src={img}
-                      alt={`${auction.title} - obrázek ${idx + 2}`}
+                      alt={`${auction.title} - náhled ${idx + 1}`}
                       fill
                       className="object-cover"
                     />
-                  </div>
+                    {activeImageIndex === idx && (
+                      <div className="absolute inset-0 bg-lego-red/20"></div>
+                    )}
+                  </button>
                 ))}
               </div>
             )}
@@ -137,6 +157,18 @@ export default async function AuctionDetailPage({ params }: { params: Promise<{ 
                   )}
                 </div>
               </Link>
+            </div>
+          )}
+
+          {/* Další aukce od tohoto prodejce */}
+          {sellerOtherAuctions.length > 0 && (
+            <div className="bg-white rounded-xl shadow-md p-6">
+              <h2 className="text-xl font-bold mb-4">Další aukce od {seller?.name}</h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {sellerOtherAuctions.map((otherAuction) => (
+                  <AuctionCard key={otherAuction.id} auction={otherAuction} />
+                ))}
+              </div>
             </div>
           )}
 

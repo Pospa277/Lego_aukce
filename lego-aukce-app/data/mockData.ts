@@ -73,6 +73,8 @@ export const mockAuctions: Auction[] = [
     images: [
       'https://images.unsplash.com/photo-1608889825205-eebdb9fc5806?w=800',
       'https://images.unsplash.com/photo-1608889335941-32ac5f2041b9?w=800',
+      'https://images.unsplash.com/photo-1587654780291-39c9404d746b?w=800',
+      'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800',
     ],
     startingPrice: 15000,
     currentPrice: 18500,
@@ -93,6 +95,7 @@ export const mockAuctions: Auction[] = [
     images: [
       'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800',
       'https://images.unsplash.com/photo-1608889175250-c3b0c7d90c60?w=800',
+      'https://images.unsplash.com/photo-1513470266542-e64babeb55d1?w=800',
     ],
     startingPrice: 5000,
     currentPrice: 7200,
@@ -112,6 +115,8 @@ export const mockAuctions: Auction[] = [
     description: 'Nový, nerozbalený. Architektonická replika slavné pařížské věže. Skvělý dárek pro milovníky architektury.',
     images: [
       'https://images.unsplash.com/photo-1513470266542-e64babeb55d1?w=800',
+      'https://images.unsplash.com/photo-1608889825205-eebdb9fc5806?w=800',
+      'https://images.unsplash.com/photo-1551269901-5c5e14c25df7?w=800',
     ],
     startingPrice: 1200,
     currentPrice: 1200,
@@ -130,6 +135,9 @@ export const mockAuctions: Auction[] = [
     description: 'Kompletní set, lehce používaný, výborný stav. Obsahuje 3 minifigurky policistů, 2 zločince, helikoptéru a policejní vůz.',
     images: [
       'https://images.unsplash.com/photo-1587654780291-39c9404d746b?w=800',
+      'https://images.unsplash.com/photo-1608889175250-c3b0c7d90c60?w=800',
+      'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800',
+      'https://images.unsplash.com/photo-1608889335941-32ac5f2041b9?w=800',
     ],
     startingPrice: 800,
     currentPrice: 1100,
@@ -149,6 +157,8 @@ export const mockAuctions: Auction[] = [
     description: 'Vzácný vintage set z roku 2009. Kompletní včetně všech minifigurek a originální krabice. Sběratelský kousek!',
     images: [
       'https://images.unsplash.com/photo-1587654780291-39c9404d746b?w=800',
+      'https://images.unsplash.com/photo-1513470266542-e64babeb55d1?w=800',
+      'https://images.unsplash.com/photo-1608889825205-eebdb9fc5806?w=800',
     ],
     startingPrice: 3500,
     currentPrice: 4200,
@@ -167,6 +177,9 @@ export const mockAuctions: Auction[] = [
     description: 'Obrovský set hradu Bradavic s více než 6000 díly. Kompletní s minifigurkami hlavních postav. Nový v krabici.',
     images: [
       'https://images.unsplash.com/photo-1551269901-5c5e14c25df7?w=800',
+      'https://images.unsplash.com/photo-1608889825205-eebdb9fc5806?w=800',
+      'https://images.unsplash.com/photo-1587654780291-39c9404d746b?w=800',
+      'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800',
     ],
     startingPrice: 12000,
     currentPrice: 14500,
