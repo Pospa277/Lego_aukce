@@ -238,38 +238,6 @@ export default function HowItWorksPage() {
         </div>
       </section>
 
-      {/* FAQ - Roletka */}
-      <section className="bg-white py-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">
-            ❓ Časté dotazy
-          </h2>
-          <div className="space-y-3 max-w-4xl mx-auto">
-            {faqs.map((faq, index) => (
-              <div
-                key={index}
-                className="bg-white rounded-xl shadow-md border border-gray-200 overflow-hidden"
-              >
-                <button
-                  onClick={() => toggleFaq(index)}
-                  className="w-full px-6 py-4 text-left flex items-center justify-between hover:bg-gray-50 transition-colors"
-                >
-                  <h3 className="font-bold text-lg text-gray-900">{faq.question}</h3>
-                  <span className="text-2xl text-lego-red ml-4 flex-shrink-0">
-                    {openFaqIndex === index ? '−' : '+'}
-                  </span>
-                </button>
-                {openFaqIndex === index && (
-                  <div className="px-6 py-4 bg-gray-50 border-t border-gray-200">
-                    <p className="text-gray-700">{faq.answer}</p>
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* Tipy pro úspěch */}
       <section className="bg-gradient-to-br from-lego-blue to-blue-700 text-white py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -341,8 +309,9 @@ export default function HowItWorksPage() {
           Přidejte se k tisícům spokojených sběratelů a nadšenců LEGO, kteří už úspěšně nakupují a prodávají
         </p>
 
-        {/* První 3 ohlasy - statický grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+        {/* Layout: 3 ohlasy v gridu + posuvník vedle (4. sloupec) */}
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+          {/* První 3 ohlasy - statický grid (3 sloupce) */}
           {visibleTestimonials.map((testimonial, index) => (
             <div key={index} className="bg-white rounded-xl shadow-md p-6">
               <div className="flex items-center mb-4">
@@ -364,68 +333,100 @@ export default function HowItWorksPage() {
               </div>
             </div>
           ))}
-        </div>
 
-        {/* Další 3 ohlasy - posuvník */}
-        <div className="relative">
-          <div className="overflow-hidden">
-            <div
-              className="flex transition-transform duration-500 ease-in-out"
-              style={{ transform: `translateX(-${testimonialSlide * 100}%)` }}
-            >
-              {sliderTestimonials.map((testimonial, index) => (
-                <div key={index} className="w-full flex-shrink-0 px-2">
-                  <div className="bg-white rounded-xl shadow-md p-6 max-w-2xl mx-auto">
-                    <div className="flex items-center mb-4">
-                      <div className={`w-12 h-12 ${testimonial.color} rounded-full flex items-center justify-center ${testimonial.color === 'bg-lego-yellow' ? 'text-gray-900' : 'text-white'} font-bold text-xl mr-3`}>
-                        {testimonial.initial}
-                      </div>
-                      <div>
-                        <h4 className="font-bold">{testimonial.name}</h4>
-                        <div className="flex text-yellow-400 text-sm">
-                          {'⭐'.repeat(testimonial.rating)}
+          {/* Další 3 ohlasy - posuvník (4. sloupec) */}
+          <div className="relative flex flex-col">
+            <div className="overflow-hidden flex-1">
+              <div
+                className="flex transition-transform duration-500 ease-in-out h-full"
+                style={{ transform: `translateX(-${testimonialSlide * 100}%)` }}
+              >
+                {sliderTestimonials.map((testimonial, index) => (
+                  <div key={index} className="w-full flex-shrink-0">
+                    <div className="bg-white rounded-xl shadow-md p-6 h-full flex flex-col">
+                      <div className="flex items-center mb-4">
+                        <div className={`w-12 h-12 ${testimonial.color} rounded-full flex items-center justify-center ${testimonial.color === 'bg-lego-yellow' ? 'text-gray-900' : 'text-white'} font-bold text-xl mr-3`}>
+                          {testimonial.initial}
+                        </div>
+                        <div>
+                          <h4 className="font-bold">{testimonial.name}</h4>
+                          <div className="flex text-yellow-400 text-sm">
+                            {'⭐'.repeat(testimonial.rating)}
+                          </div>
                         </div>
                       </div>
-                    </div>
-                    <p className="text-gray-700 italic text-lg">
-                      "{testimonial.text}"
-                    </p>
-                    <div className="mt-4 text-sm text-gray-500">
-                      {testimonial.role}
+                      <p className="text-gray-700 italic flex-1">
+                        "{testimonial.text}"
+                      </p>
+                      <div className="mt-4 text-sm text-gray-500">
+                        {testimonial.role}
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
+            </div>
+
+            {/* Navigační tlačítka posuvníku */}
+            <div className="flex items-center justify-center gap-4 mt-4">
+              <button
+                onClick={() => setTestimonialSlide(Math.max(0, testimonialSlide - 1))}
+                disabled={testimonialSlide === 0}
+                className="w-10 h-10 rounded-full bg-lego-red text-white font-bold disabled:bg-gray-300 disabled:cursor-not-allowed hover:bg-red-700 transition-colors"
+              >
+                ←
+              </button>
+              <div className="flex gap-2">
+                {sliderTestimonials.map((_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => setTestimonialSlide(index)}
+                    className={`w-3 h-3 rounded-full transition-colors ${
+                      testimonialSlide === index ? 'bg-lego-red' : 'bg-gray-300'
+                    }`}
+                  />
+                ))}
+              </div>
+              <button
+                onClick={() => setTestimonialSlide(Math.min(sliderTestimonials.length - 1, testimonialSlide + 1))}
+                disabled={testimonialSlide === sliderTestimonials.length - 1}
+                className="w-10 h-10 rounded-full bg-lego-red text-white font-bold disabled:bg-gray-300 disabled:cursor-not-allowed hover:bg-red-700 transition-colors"
+              >
+                →
+              </button>
             </div>
           </div>
+        </div>
+      </section>
 
-          {/* Navigační tlačítka posuvníku */}
-          <div className="flex items-center justify-center gap-4 mt-6">
-            <button
-              onClick={() => setTestimonialSlide(Math.max(0, testimonialSlide - 1))}
-              disabled={testimonialSlide === 0}
-              className="w-10 h-10 rounded-full bg-lego-red text-white font-bold disabled:bg-gray-300 disabled:cursor-not-allowed hover:bg-red-700 transition-colors"
-            >
-              ←
-            </button>
-            <div className="flex gap-2">
-              {sliderTestimonials.map((_, index) => (
+      {/* FAQ - Roletka */}
+      <section className="bg-white py-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">
+            ❓ Časté dotazy
+          </h2>
+          <div className="space-y-3 max-w-4xl mx-auto">
+            {faqs.map((faq, index) => (
+              <div
+                key={index}
+                className="bg-white rounded-xl shadow-md border border-gray-200 overflow-hidden"
+              >
                 <button
-                  key={index}
-                  onClick={() => setTestimonialSlide(index)}
-                  className={`w-3 h-3 rounded-full transition-colors ${
-                    testimonialSlide === index ? 'bg-lego-red' : 'bg-gray-300'
-                  }`}
-                />
-              ))}
-            </div>
-            <button
-              onClick={() => setTestimonialSlide(Math.min(sliderTestimonials.length - 1, testimonialSlide + 1))}
-              disabled={testimonialSlide === sliderTestimonials.length - 1}
-              className="w-10 h-10 rounded-full bg-lego-red text-white font-bold disabled:bg-gray-300 disabled:cursor-not-allowed hover:bg-red-700 transition-colors"
-            >
-              →
-            </button>
+                  onClick={() => toggleFaq(index)}
+                  className="w-full px-6 py-4 text-left flex items-center justify-between hover:bg-gray-50 transition-colors"
+                >
+                  <h3 className="font-bold text-lg text-gray-900">{faq.question}</h3>
+                  <span className="text-2xl text-lego-red ml-4 flex-shrink-0">
+                    {openFaqIndex === index ? '−' : '+'}
+                  </span>
+                </button>
+                {openFaqIndex === index && (
+                  <div className="px-6 py-4 bg-gray-50 border-t border-gray-200">
+                    <p className="text-gray-700">{faq.answer}</p>
+                  </div>
+                )}
+              </div>
+            ))}
           </div>
         </div>
       </section>
